@@ -14,7 +14,7 @@ public class VersionTracker {
         if (MobAI.settings.configuration.getBoolean("VersionTracking")) {
             URL url;
             try {
-                url = new URL("https://dev.bukkit.org/projects/better-mob-ai");
+                url = new URL("https://raw.githubusercontent.com/LucasRomier/BetterMobAI/master/src/main/resources/plugin.yml");
             } catch (MalformedURLException e) {
                 return;
             }
@@ -29,30 +29,29 @@ public class VersionTracker {
                 return;
             }
             try {
-                String version = MobAI.getInstance().getDescription().getVersion().replace("version: ", "").replace(" ", "");
-                double currentVersion = Double.parseDouble(version);
+                String version = MobAI.getInstance().getDescription().getVersion().replace("version: ", "");
 
                 Scanner scanner = new Scanner(inputStream, "UTF-8");
                 scanner.useDelimiter("\\n");
                 boolean found = false;
                 while (scanner.hasNext()) {
                     String line = scanner.nextLine();
-                    if (line.contains("Current plugin version:")) {
+                    if (line.contains("version: ")) {
                         found = true;
-                        double latestVersion = Double.parseDouble(line.replaceAll("[^0-9.]", ""));
+                        String latest = line.replace("version: ", "");
 
-                        if (latestVersion > currentVersion) {
+                        if (!version.equals(latest)) {
                             System.out.println("/============================================================================================================\\");
                             System.out.println("|[Better MobAI] There is a new version of Better MobAI availaible!                                           |");
-                            System.out.println("|[Better MobAI] Current version: " + currentVersion + "                                                                            ".substring(0, 76 - String.valueOf(currentVersion).length()) + "|");
-                            System.out.println("|[Better MobAI] Latest version: " + latestVersion + "                                                                             ".substring(0, 77 - String.valueOf(latestVersion).length()) + "|");
+                            System.out.println("|[Better MobAI] Current version: " + version + "                                                                            ".substring(0, 76 - version.length()) + "|");
+                            System.out.println("|[Better MobAI] Latest version: " + latest + "                                                                             ".substring(0, 77 - latest.length()) + "|");
                             System.out.println("|[Better MobAI] Download now: http://dev.bukkit.org/bukkit-plugins/better-mob-ai/#w-installation-and-updating|");
                             System.out.println("\\============================================================================================================/");
                             break;
                         }
                         System.out.println("/==========================================\\");
                         System.out.println("|[Better MobAI] Better MobAI is up to date!|");
-                        System.out.println("|[Better MobAI] Current version: " + currentVersion + "!" + "         ".substring(0, 9 - String.valueOf(currentVersion).length()) + "|");
+                        System.out.println("|[Better MobAI] Current version: " + version + "!" + "         ".substring(0, 9 - version.length()) + "|");
                         System.out.println("\\==========================================/");
 
                         break;
