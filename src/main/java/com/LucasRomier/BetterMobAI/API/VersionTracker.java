@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Scanner;
 
 
@@ -20,7 +21,9 @@ public class VersionTracker {
             }
             InputStream inputStream;
             try {
-                inputStream = url.openStream();
+                URLConnection connection = url.openConnection();
+                connection.setUseCaches(false);
+                inputStream = connection.getInputStream();
             } catch (IOException e) {
                 System.err.println("/============================================================\\");
                 System.err.println("|[Better MobAI] Could not retrieve last Better MobAI version:|");
@@ -38,21 +41,21 @@ public class VersionTracker {
                     String line = scanner.nextLine();
                     if (line.contains("version: ")) {
                         found = true;
-                        String latest = line.replace("version: ", "");
+                        String latest = line.replace("version: ", "").replace("\"", "");
 
                         if (!version.equals(latest)) {
                             System.out.println("/============================================================================================================\\");
-                            System.out.println("|[Better MobAI] There is a new version of Better MobAI availaible!                                           |");
+                            System.out.println("|[Better MobAI] There is a new version of Better MobAI available!                                            |");
                             System.out.println("|[Better MobAI] Current version: " + version + "                                                                            ".substring(0, 76 - version.length()) + "|");
                             System.out.println("|[Better MobAI] Latest version: " + latest + "                                                                             ".substring(0, 77 - latest.length()) + "|");
-                            System.out.println("|[Better MobAI] Download now: http://dev.bukkit.org/bukkit-plugins/better-mob-ai/#w-installation-and-updating|");
+                            System.out.println("|[Better MobAI] Download now: https://www.spigotmc.org/resources/better-mob-ai.38166/                        |");
                             System.out.println("\\============================================================================================================/");
                             break;
                         }
-                        System.out.println("/==========================================\\");
-                        System.out.println("|[Better MobAI] Better MobAI is up to date!|");
-                        System.out.println("|[Better MobAI] Current version: " + version + "!" + "         ".substring(0, 9 - version.length()) + "|");
-                        System.out.println("\\==========================================/");
+                        System.out.println("/==================================================\\");
+                        System.out.println("|[Better MobAI] Better MobAI is up to date!        |");
+                        System.out.println("|[Better MobAI] Current version: " + version + "!" + "         ".substring(0, 17 - version.length()) + "|");
+                        System.out.println("\\==================================================/");
 
                         break;
                     }
