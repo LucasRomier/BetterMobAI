@@ -20,10 +20,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class BetterGiant extends BetterMob {
 
@@ -266,7 +263,6 @@ public class BetterGiant extends BetterMob {
         return Math.sqrt(Math.pow(this.entity.getLocation().getX() - location.getX(), 2.0D) + Math.pow(this.entity.getLocation().getZ() - location.getZ(), 2.0D));
     }
 
-    @SuppressWarnings( "deprecation" )
     private void trackBoulder(FallingBlock paramFallingBlock) {
         this.boulder = Bukkit.getScheduler().scheduleSyncRepeatingTask(MobAI.getInstance(), () -> {
             if (paramFallingBlock.isOnGround()) {
@@ -277,8 +273,8 @@ public class BetterGiant extends BetterMob {
                         ((LivingEntity) e).damage(MobAI.settings.configuration.getDouble("Giant.ThrowBoulder.Damage"));
                 }
 
-                MaterialData fallingDustData = new MaterialData(Material.COBBLESTONE);
-                paramFallingBlock.getWorld().spawnParticle(Particle.BLOCK_DUST, paramFallingBlock.getLocation(), 40, fallingDustData);
+                Particle.DustOptions dustOptions = new Particle.DustOptions(Color.GRAY, 1);
+                paramFallingBlock.getWorld().spawnParticle(Particle.REDSTONE, paramFallingBlock.getLocation(), 0, 0.0D, 0.0D, 40.0D, dustOptions);
                 paramFallingBlock.getWorld().playSound(paramFallingBlock.getLocation(), Sound.BLOCK_STONE_BREAK, 4.0F, 4.0F);
                 paramFallingBlock.getLocation().getBlock().setType(Material.AIR);
                 Bukkit.getScheduler().cancelTask(boulder);

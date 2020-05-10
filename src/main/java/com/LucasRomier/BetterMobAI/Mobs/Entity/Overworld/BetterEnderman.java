@@ -83,9 +83,9 @@ public class BetterEnderman extends BetterMob {
     private void jumpTowardsPlayer(final Player player) {
         final Location location = this.entity.getLocation();
         this.secondary = Bukkit.getScheduler().scheduleSyncRepeatingTask(MobAI.getInstance(), new Runnable() {
-            double x = BetterEnderman.this.entity.getLocation().getX();
-            double z = BetterEnderman.this.entity.getLocation().getZ();
-            int i = 0;
+            final double x = BetterEnderman.this.entity.getLocation().getX();
+            final double z = BetterEnderman.this.entity.getLocation().getZ();
+            double i = 0;
 
             public void run() {
                 if ((!player.getGameMode().equals(GameMode.SURVIVAL) && !player.getGameMode().equals(GameMode.ADVENTURE)) ||
@@ -97,8 +97,10 @@ public class BetterEnderman extends BetterMob {
                 double xPortion = player.getLocation().getX() - BetterEnderman.this.entity.getLocation().getX() / this.i;
                 double zPortion = player.getLocation().getZ() - BetterEnderman.this.entity.getLocation().getZ() / this.i;
                 if (this.i < 6) {
-                    BetterEnderman.this.entity.teleport(new Location(player.getWorld(), this.x + xPortion, player.getLocation().getY(), this.z + zPortion));
-                    BetterEnderman.this.entity.getWorld().playSound(BetterEnderman.this.entity.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
+                    try {
+                        BetterEnderman.this.entity.teleport(new Location(player.getWorld(), this.x + xPortion, player.getLocation().getY(), this.z + zPortion));
+                        BetterEnderman.this.entity.getWorld().playSound(BetterEnderman.this.entity.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
+                    } catch (IllegalArgumentException ignore) {}
                     this.i++;
                 } else {
                     BetterEnderman.this.entity.teleport(player.getLocation().clone().add(0.5D, 0.0D, 0.5D));
