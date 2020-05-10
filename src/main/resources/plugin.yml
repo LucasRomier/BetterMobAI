@@ -1,5 +1,5 @@
 main: com.LucasRomier.BetterMobAI.MobAI
-version: "3.0.2 alpha"
+version: "3.0.3 alpha"
 name: BetterMobAI
 author: whereisthemonkey
 api-version: "1.15"
